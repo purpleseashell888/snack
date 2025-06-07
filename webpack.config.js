@@ -18,6 +18,7 @@ module.exports = {
     // 告诉 webpack 不使用箭头函数，防止 无法解析 ie
     environment: {
       arrowFunction: false,
+      const: false,
     },
   },
 
@@ -61,6 +62,32 @@ module.exports = {
         ],
         // 要排除的文件
         exclude: /node_modules/,
+      },
+
+      // 设置 less 文件的处理
+      {
+        test: /\.less$/,
+        use: [
+          "style-loader",
+          "css-loader",
+          // 引入 postcss
+          {
+            loader: "postcss-loader",
+            options: {
+              postcssOptions: {
+                plugins: [
+                  [
+                    "postcss-preset-env",
+                    {
+                      browsers: "last 2 versions",
+                    },
+                  ],
+                ],
+              },
+            },
+          },
+          "less-loader",
+        ],
       },
     ],
   },
